@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cat Food Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #00796b;
+      text-align: center;
+    }
+
+    .cat-section {
+      background: #f9fbe7;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cat-name {
+      font-weight: 600;
+      color: #004d40;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .cat-name:hover {
+      text-decoration: underline;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 0.8rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      display: block;
+      margin: 1.5rem auto 0;
+      background: #00796b;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #004d40;
+    }
+
+    .results {
+      margin-top: 1.5rem;
+      background: #e0f2f1;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #666;
+    }
+
+    .daily-input {
+      width: 80px;
+      padding: 0.3rem;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+      text-align: center;
+    }
+
+    .treats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding: 0.5rem 0.8rem;
+      background: #f1f8e9;
+      border-radius: 8px;
+    }
+
+    .treats button {
+      background: #8bc34a;
+      padding: 0.4rem 0.8rem;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
+
+    .treats button:hover {
+      background: #689f38;
+    }
+
+    .reset-btn {
+      background: #b71c1c;
+      margin-top: 1rem;
+    }
+
+    .reset-btn:hover {
+      background: #7f0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cat Food Calculator</h1>
+    <p style="text-align:center;">Calculate dry food (grams) needed per cat after wet food and treats.</p>
+
+    <!-- Fergus -->
+    <div class="cat-section" id="fergus-section">
+      <div class="cat-header">
+        <div class="cat-name" id="fergusName" onclick="editDailyCals('Fergus')">🐾 Fergus</div>
+        <div id="fergusCalInfo" class="small-muted" onclick="editDailyCals('Fergus')">235 kcal/day</div>
+      </div>
+
+      <label>Morning wet food:</label>
+      <select id="fergusMorningSelect" onchange="updateWetCalories('Fergus','morning')">
+        <option value="">-- Select a wet food --</option>
+      </select>
+      <input type="number" id="fergusMorningWet" placeholder="Or enter calories manually" />
+
+      <label>Evening wet food:</label>
+      <select id="fergusEveningSelect" onchange="updateWetCalories('Fergus','evening')">
+        <option value="">-- Select a wet food --</option>
+      </select>
+      <input type="number" id="fergusEveningWet" placeholder="Or enter calories manually" />
+
+      <div class="treats">
+        <span><strong>Treats:</strong> <span id="fergusTreats">0</span> (2 cal each)</span>
+        <div>
+          <button onclick="adjustTreats('Fergus', -1)">–</button>
+          <button onclick="adjustTreats('Fergus', 1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finn -->
+    <div class="cat-section" id="finn-section">
+      <div class="cat-header">
+        <div class="cat-name" id="finnName" onclick="editDailyCals('Finn')">🐾 Finn</div>
+        <div id="finnCalInfo" class="small-muted" onclick="editDailyCals('Finn')">260 kcal/day</div>
+      </div>
+
+      <label>Morning wet food:</label>
+      <select id="finnMorningSelect" onchange="updateWetCalories('Finn','morning')">
+        <option value="">-- Select a wet food --</option>
+      </select>
+      <input type="number" id="finnMorningWet" placeholder="Or enter calories manually" />
+
+      <label>Evening wet food:</label>
+      <select id="finnEveningSelect" onchange="updateWetCalories('Finn','evening')">
+        <option value="">-- Select a wet food --</option>
+      </select>
+      <input type="number" id="finnEveningWet" placeholder="Or enter calories manually" />
+
+      <div class="treats">
+        <span><strong>Treats:</strong> <span id="finnTreats">0</span> (2 cal each)</span>
+        <div>
+          <button onclick="adjustTreats('Finn', -1)">–</button>
+          <button onclick="adjustTreats('Finn', 1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+    <button class="reset-btn" onclick="resetData()">Reset All Saved Data</button>
+    <p class="note">All values automatically save for next time 🐱</p>
+
+    <div id="results" class="results" style="display:none;"></div>
+  </div>
+
+  <script>
+    const dryCalPerGram = 4.1;
+    const treatCalories = 2;
+
+    const wetFoods = [ { name: "Press Your Lunch (10oz)", servingsCount: 4, cals: 189 },
+      { name: "Press Your Lunch (5.5oz)", servingsCount: 2, cals: 103 },
+      { name: "Topsie Turvy (5.5oz)", servingsCount: 2, cals: 168 },
+      { name: "Selfie Cam (5.5oz)", servingsCount: 2, cals: 133 },
+      { name: "QT Patootie (5.5oz)", servingsCount: 2, cals: 107 },
+      { name: "Meal or No Deal (5.5oz)", servingsCount: 2, cals: 93 },
+	  { name: "Meal or No Deal (10oz)", servingsCount: 4, cals: 170 },
+	  { name: "The Double Dip (5.5oz)", servingsCount: 2, cals:111 },
+	  { name: "Meows n' Holler Purramid (5.5oz)", servingsCount: 2, cals: 114 },
+	  { name: "Soulistic - Chicken n Turkey Pate (5.5oz)", servingsCount: 2, cals: 168 },
+	  { name: "Press Your Dinner (5.5oz)", servingsCount: 2, cals: 170 },
+	  { name: "Funk in the Trunk (5.5oz)", servingsCount: 2, cals: 102 },
+	  { name: "Splash Dance (5.5oz)", servingsCount: 2, cals: 146 },
+	  { name: "Chicken Frick a Zee (5.5oz)", servingsCount: 2, cals: 142 },
+	  { name: "Fowl Ball (5.5oz)", servingsCount: 2, cals: 129 },
+	  { name: "Lamb Burgini (5.5oz)", servingsCount: 2, cals: 147 },
+	  { name: "Quick n Quirky (5.5oz)", servingsCount: 2, cals: 103 },
+	  { name: "Steak Frites (5.5oz)", servingsCount: 2, cals: 124 },
+	  { name: "Peking Ducken (5.5oz)", servingsCount: 2, cals: 112 },
+	  { name: "Grandma's Chicken Soup (5.5oz)", servingsCount: 2, cals: 106 },
+	  { name: "BFF OMG Dilly Dally (5.5oz)", servingsCount: 2, cals: 114 },
+	  { name: "BFF OMG Cloud 9 (5.5oz)", servingsCount: 2, cals: 197 },
+	  { name: "Paw Lickin CHicken (5.5oz)", servingsCount: 2, cals: 105 },
+	  { name: "Amazon Livin (5.5oz)", servingsCount: 2, cals: 109 },,
+    ];
+
+    let cats = {
+      Fergus: { daily: 235, treats: 0 },
+      Finn: { daily: 260, treats: 0 }
+    };
+
+    window.onload = function() {
+      loadData();
+      populateSelects();
+      restoreInputs();
+      updateTreatDisplays();
+    };
+
+    function populateSelects() {
+      ['Fergus', 'Finn'].forEach(cat => {
+        ['Morning', 'Evening'].forEach(time => {
+          const select = document.getElementById(`${cat.toLowerCase()}${time}Select`);
+          while (select.options.length > 1) select.remove(1);
+          wetFoods.forEach(food => {
+            const option = document.createElement('option');
+            option.value = food.name;
+            option.textContent = `${food.name} (${food.cals} cal / ${food.servingsCount} servings)`;
+            select.appendChild(option);
+          });
+        });
+      });
+    }
+
+    function updateWetCalories(cat, time) {
+      const select = document.getElementById(`${cat.toLowerCase()}${capitalize(time)}Select`);
+      const input = document.getElementById(`${cat.toLowerCase()}${capitalize(time)}Wet`);
+      const food = wetFoods.find(f => f.name === select.value);
+      if (food) input.value = (food.cals / food.servingsCount).toFixed(1);
+      saveData();
+    }
+
+    function adjustTreats(cat, change) {
+      if (!cats[cat]) cats[cat] = { daily: 200, treats: 0 };
+      cats[cat].treats = Math.max(0, (cats[cat].treats || 0) + change);
+      updateTreatDisplays();
+      saveData();
+    }
+
+    function updateTreatDisplays() {
+      for (const cat of Object.keys(cats)) {
+        const el = document.getElementById(`${cat.toLowerCase()}Treats`);
+        if (el) el.textContent = cats[cat].treats;
+      }
+    }
+
+    function editDailyCals(cat) {
+      if (!cats[cat]) cats[cat] = { daily: 200, treats: 0 };
+      const div = document.getElementById(`${cat.toLowerCase()}CalInfo`);
+      const current = cats[cat].daily;
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.value = current;
+      input.className = 'daily-input';
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
+      input.onblur = function() {
+        const newVal = parseFloat(input.value);
+        if (!isNaN(newVal) && newVal > 0) {
+          cats[cat].daily = newVal;
+          div.textContent = `${newVal} kcal/day`;
+          saveData();
+        } else {
+          div.textContent = `${cats[cat].daily} kcal/day`;
+        }
+      };
+      div.innerHTML = '';
+      div.appendChild(input);
+      input.focus();
+      input.select();
+    }
+
+    function calculate() {
+      saveData();
+      const resultsDiv = document.getElementById('results');
+      let output = "";
+
+      ['Fergus', 'Finn'].forEach(cat => {
+        if (!cats[cat]) cats[cat] = { daily: 200, treats: 0 };
+
+        const morning = parseFloat(document.getElementById(`${cat.toLowerCase()}MorningWet`).value) || 0;
+        const evening = parseFloat(document.getElementById(`${cat.toLowerCase()}EveningWet`).value) || 0;
+        const treatCals = (cats[cat].treats || 0) * treatCalories;
+
+        const totalWet = morning + evening + treatCals;
+        const remainingCals = cats[cat].daily - totalWet;
+        const dryGramsTotal = remainingCals / dryCalPerGram;
+        const dryGramsPerMeal = dryGramsTotal / 2;
+
+        output += `
+          <div>
+            <div style="font-weight:600;color:#004d40">${cat}</div>
+            <div>Wet + Treat calories: ${totalWet.toFixed(1)} kcal</div>
+            <div>Treats: ${cats[cat].treats} (${treatCals} kcal)</div>
+            <div>Total dry food: <strong>${dryGramsTotal.toFixed(1)} g</strong></div>
+            <div>Each meal: <strong>${dryGramsPerMeal.toFixed(1)} g</strong></div>
+          </div><br>
+        `;
+      });
+
+      resultsDiv.innerHTML = output;
+      resultsDiv.style.display = 'block';
+    }
+
+    function saveData() {
+      const data = {
+        cats,
+        inputs: {
+          fergusMorningWet: document.getElementById('fergusMorningWet').value,
+          fergusEveningWet: document.getElementById('fergusEveningWet').value,
+          finnMorningWet: document.getElementById('finnMorningWet').value,
+          finnEveningWet: document.getElementById('finnEveningWet').value,
+          fergusMorningSelect: document.getElementById('fergusMorningSelect').value,
+          fergusEveningSelect: document.getElementById('fergusEveningSelect').value,
+          finnMorningSelect: document.getElementById('finnMorningSelect').value,
+          finnEveningSelect: document.getElementById('finnEveningSelect').value,
+        }
+      };
+      localStorage.setItem('catFoodData', JSON.stringify(data));
+    }
+
+    function loadData() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('catFoodData'));
+        if (saved && typeof saved === 'object' && saved.cats) {
+          for (const key in saved.cats) {
+            cats[key] = { ...cats[key], ...saved.cats[key] };
+          }
+        }
+      } catch {}
+      for (const cat in cats) {
+        const el = document.getElementById(`${cat.toLowerCase()}CalInfo`);
+        if (el) el.textContent = `${cats[cat].daily} kcal/day`;
+      }
+    }
+
+    function restoreInputs() {
+      const saved = JSON.parse(localStorage.getItem('catFoodData'));
+      if (!saved || !saved.inputs) return;
+      for (const [id, val] of Object.entries(saved.inputs)) {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      }
+    }
+
+    function resetData() {
+      if (confirm('Clear all saved data?')) {
+        localStorage.removeItem('catFoodData');
+        location.reload();
+      }
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  </script>
+</body>
+</html>
