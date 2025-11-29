@@ -316,9 +316,18 @@
 	  { name: "Grandma's Chicken Soup (5.5oz)", servingsCount: 2, cals: 106 },
 	  { name: "BFF OMG Dilly Dally (5.5oz)", servingsCount: 2, cals: 114 },
 	  { name: "BFF OMG Cloud 9 (5.5oz)", servingsCount: 2, cals: 197 },
-	  { name: "Paw Lickin CHicken (5.5oz)", servingsCount: 2, cals: 105 },
+	  { name: "Paw Lickin Chicken (5.5oz)", servingsCount: 2, cals: 105 },
 	  { name: "Amazon Livin (5.5oz)", servingsCount: 2, cals: 109 },
   ];
+ wetFoods.sort(( a, b ) => {
+  if ( a.name < b.name ){
+    return -1;
+  }
+  if ( a.name > b.name ){
+    return 1;
+  }
+  return 0;
+});
 
   let cats = {
     Fergus: { daily: 235, treats: 0 },
